@@ -1,0 +1,26 @@
+---
+import Currency from "@unirate-api/astro/components/Currency.astro";
+import Rate from "@unirate-api/astro/components/Rate.astro";
+import { convertCurrency, fetchedAt } from "@unirate-api/astro/runtime";
+
+const checkout = 100;
+const eur = convertCurrency(checkout, "USD", "EUR").toFixed(2);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>astro-unirate example</title>
+  </head>
+  <body>
+    <h1>UniRate Astro integration smoke test</h1>
+
+    <p id="conv-eur">100 USD → <Currency amount={100} from="USD" to="EUR" /></p>
+    <p id="conv-gbp">50 USD → <Currency amount={50} from="USD" to="GBP" /></p>
+    <p id="conv-code">100 USD → <Currency amount={100} from="USD" to="EUR" currencyDisplay="code" /></p>
+    <p id="rate-eur">USD/EUR rate: <Rate from="USD" to="EUR" /></p>
+    <p id="rate-cross">EUR/GBP rate: <Rate from="EUR" to="GBP" precision={6} /></p>
+    <p id="helper">helper result: {eur} EUR</p>
+    <p id="fetched">fetched at: {fetchedAt ?? "n/a"}</p>
+  </body>
+</html>
