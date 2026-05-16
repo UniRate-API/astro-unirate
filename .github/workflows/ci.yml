@@ -65,14 +65,18 @@ jobs:
       - name: Assert rendered output
         working-directory: exampleSite
         run: |
-          echo "--- dist/index.html ---"
+          echo "--- dist/index.html (raw bytes) ---"
           cat dist/index.html
-          echo "-----------------------"
-          grep -q '92.50'      dist/index.html || { echo "missing USD→EUR conversion (92.50)"; exit 1; }
-          grep -q '39.50'      dist/index.html || { echo "missing USD→GBP conversion (39.50)"; exit 1; }
-          grep -q 'EUR 92.50'  dist/index.html || { echo "missing currencyDisplay=code rendering"; exit 1; }
-          grep -q '0.9250'     dist/index.html || { echo "missing USD/EUR rate"; exit 1; }
-          grep -q '0.854054'   dist/index.html || { echo "missing derived EUR/GBP cross-rate"; exit 1; }
+          echo "-----------------------------------"
+          # Normalize the Intl-emitted U+00A0 (NBSP) between currency code
+          # and amount to an ASCII space before grepping.
+          norm=$(perl -CSD -pe 's/\x{00A0}/ /g' dist/index.html)
+          run() { printf '%s' "$norm" | grep -q -- "$1" || { echo "missing: $2"; exit 1; }; }
+          run '92.50'      'USD→EUR conversion (92.50)'
+          run '39.50'      'USD→GBP conversion (39.50)'
+          run 'EUR 92.50'  'currencyDisplay=code rendering (EUR 92.50)'
+          run '0.9250'     'USD/EUR rate'
+          run '0.854054'   'derived EUR/GBP cross-rate'
 
       - name: Stop mock API
         if: always()
