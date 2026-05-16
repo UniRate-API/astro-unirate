@@ -1,0 +1,24 @@
+---
+import { getRate } from "@unirate-api/astro/runtime";
+
+export interface Props {
+  from: string;
+  to: string;
+  /** Decimal places to render. Defaults to 4. */
+  precision?: number;
+  as?: "span" | "text";
+  class?: string;
+}
+
+const { from, to, precision = 4, as = "span", class: className } = Astro.props;
+
+let rendered: string;
+try {
+  rendered = getRate(from, to).toFixed(precision);
+} catch {
+  rendered = "—";
+}
+---
+{as === "text" ? rendered : (
+  <span data-unirate="rate" data-from={from.toUpperCase()} data-to={to.toUpperCase()} class={className}>{rendered}</span>
+)}

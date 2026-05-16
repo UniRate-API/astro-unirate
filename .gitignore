@@ -1,6 +1,8 @@
 node_modules/
 dist/
-components/
+# top-level /components is a build artifact populated by copy-components.mjs;
+# do NOT match src/components/ which holds the source .astro files.
+/components/
 .astro/
 .vite/
 coverage/

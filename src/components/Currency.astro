@@ -1,0 +1,50 @@
+---
+import { convertCurrency, formatCurrency } from "@unirate-api/astro/runtime";
+import type { FormatOptions } from "@unirate-api/astro/runtime";
+
+export interface Props extends FormatOptions {
+  amount: number;
+  from: string;
+  to: string;
+  /**
+   * When true (default), wraps the output in `<span data-unirate>`. Set
+   * `as="text"` to render the bare string with no element — useful inside
+   * `<title>` or table cells where extra DOM is awkward.
+   */
+  as?: "span" | "text";
+  class?: string;
+}
+
+const {
+  amount,
+  from,
+  to,
+  as = "span",
+  class: className,
+  locale,
+  minimumFractionDigits,
+  maximumFractionDigits,
+  currencyDisplay,
+} = Astro.props;
+
+let rendered: string;
+try {
+  const converted = convertCurrency(amount, from, to);
+  rendered = formatCurrency(converted, to, {
+    locale,
+    minimumFractionDigits,
+    maximumFractionDigits,
+    currencyDisplay,
+  });
+} catch {
+  rendered = formatCurrency(amount, from, {
+    locale,
+    minimumFractionDigits,
+    maximumFractionDigits,
+    currencyDisplay,
+  });
+}
+---
+{as === "text" ? rendered : (
+  <span data-unirate="currency" data-from={from.toUpperCase()} data-to={to.toUpperCase()} class={className}>{rendered}</span>
+)}
