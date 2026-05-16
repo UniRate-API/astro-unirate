@@ -12,7 +12,7 @@ const DEFAULT_API = "https://api.unirateapi.com";
  * Astro integration that fetches a UniRate snapshot at `astro:config:setup`
  * and exposes it to the build via a `virtual:unirate` Vite module. Pair
  * with the bundled `<Currency />` and `<Rate />` components, or import
- * `getRate` / `convertCurrency` from `@unirate-api/astro/runtime`.
+ * `getRate` / `convertCurrency` from `@unirate/astro/runtime`.
  */
 export default function unirate(options: UniRateIntegrationOptions = {}): AstroIntegration {
   const apiKey = options.apiKey ?? process.env.UNIRATE_API_KEY;
@@ -38,7 +38,7 @@ export default function unirate(options: UniRateIntegrationOptions = {}): AstroI
   ].join("\n");
 
   return {
-    name: "@unirate-api/astro",
+    name: "@unirate/astro",
     hooks: {
       "astro:config:done": ({ injectTypes }) => {
         injectTypes({ filename: "types.d.ts", content: virtualTypes });

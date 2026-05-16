@@ -1,4 +1,4 @@
-# @unirate-api/astro
+# @unirate/astro
 
 Astro integration for [UniRate](https://unirateapi.com) — fetches a currency exchange rate snapshot at build time, exposes it as a Vite virtual module, and ships `<Currency />` and `<Rate />` components plus runtime conversion helpers.
 
@@ -10,7 +10,7 @@ Astro integration for [UniRate](https://unirateapi.com) — fetches a currency e
 ## Install
 
 ```sh
-npm install @unirate-api/astro
+npm install @unirate/astro
 ```
 
 You'll need a free UniRate API key — grab one at <https://unirateapi.com>.
@@ -20,7 +20,7 @@ You'll need a free UniRate API key — grab one at <https://unirateapi.com>.
 ```js
 // astro.config.mjs
 import { defineConfig } from "astro/config";
-import unirate from "@unirate-api/astro";
+import unirate from "@unirate/astro";
 
 export default defineConfig({
   integrations: [
@@ -49,8 +49,8 @@ If `apiKey` is omitted the integration reads `UNIRATE_API_KEY` from the environm
 
 ```astro
 ---
-import Currency from "@unirate-api/astro/components/Currency.astro";
-import Rate from "@unirate-api/astro/components/Rate.astro";
+import Currency from "@unirate/astro/components/Currency.astro";
+import Rate from "@unirate/astro/components/Rate.astro";
 ---
 <p>Subtotal: <Currency amount={100} from="USD" to="EUR" /></p>
 <p>Today's USD/EUR rate: <Rate from="USD" to="EUR" /></p>
@@ -71,7 +71,7 @@ Pass `as="text"` to render the bare string with no wrapping `<span>` — useful 
 
 ```astro
 ---
-import { convertCurrency, getRate, formatCurrency, fetchedAt } from "@unirate-api/astro/runtime";
+import { convertCurrency, getRate, formatCurrency, fetchedAt } from "@unirate/astro/runtime";
 
 const eur = convertCurrency(100, "USD", "EUR");
 const rate = getRate("USD", "EUR");
@@ -87,7 +87,7 @@ The runtime entry also exports the raw `snapshot`, `base`, `rates`, and `fetched
 
 `astro:config:setup` fetches `/api/rates?from=<baseCurrency>[&to=...]` once, then registers a Vite plugin that resolves `virtual:unirate` to the snapshot as a frozen ES module. Components and helpers read from that virtual module, so by the time Astro renders pages every rate is already a constant in the bundle.
 
-`astro:config:done` calls `injectTypes` to write the `virtual:unirate` ambient declaration into your `.astro/integrations/@unirate-api/astro/` dir — your tsconfig picks it up automatically with no extra setup.
+`astro:config:done` calls `injectTypes` to write the `virtual:unirate` ambient declaration into your `.astro/integrations/@unirate/astro/` dir — your tsconfig picks it up automatically with no extra setup.
 
 Cross-pair rates are derived at render time: `rate(from → to) = rate(base → to) / rate(base → from)`. This means a snapshot keyed against USD can convert EUR → GBP without an extra fetch.
 

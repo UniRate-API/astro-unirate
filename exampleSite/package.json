@@ -9,7 +9,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@unirate-api/astro": "file:..",
+    "@unirate/astro": "file:..",
     "astro": "^5.0.0"
   }
 }

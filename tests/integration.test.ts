@@ -37,7 +37,7 @@ function withFetch(impl: typeof fetch): () => void {
 describe("unirate() integration", () => {
   it("exposes the standard Astro integration shape", () => {
     const integ = unirate({ apiKey: "k" });
-    expect(integ.name).toBe("@unirate-api/astro");
+    expect(integ.name).toBe("@unirate/astro");
     expect(typeof integ.hooks["astro:config:setup"]).toBe("function");
   });
 

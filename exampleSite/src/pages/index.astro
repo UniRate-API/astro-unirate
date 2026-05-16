@@ -1,7 +1,7 @@
 ---
-import Currency from "@unirate-api/astro/components/Currency.astro";
-import Rate from "@unirate-api/astro/components/Rate.astro";
-import { convertCurrency, fetchedAt } from "@unirate-api/astro/runtime";
+import Currency from "@unirate/astro/components/Currency.astro";
+import Rate from "@unirate/astro/components/Rate.astro";
+import { convertCurrency, fetchedAt } from "@unirate/astro/runtime";
 
 const checkout = 100;
 const eur = convertCurrency(checkout, "USD", "EUR").toFixed(2);

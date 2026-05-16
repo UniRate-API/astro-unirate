@@ -1,6 +1,6 @@
 {
-  "name": "@unirate-api/astro",
-  "version": "0.1.1",
+  "name": "@unirate/astro",
+  "version": "0.1.2",
   "description": "Astro integration for UniRate — build-time currency exchange rate snapshots, <Currency /> and <Rate /> components, and runtime conversion helpers.",
   "type": "module",
   "license": "MIT",

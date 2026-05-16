@@ -1,5 +1,5 @@
 import { defineConfig } from "astro/config";
-import unirate from "@unirate-api/astro";
+import unirate from "@unirate/astro";
 
 export default defineConfig({
   integrations: [
